@@ -10,7 +10,7 @@
 
 > 设计前提：**你用自己的 API Key**。插件本身不代付、不内置任何人的 Key，也不会上传你的素材到除你配置的服务之外的任何地方。
 
-![工作流实验室](docs/labs.png)
+![工作流实验室](https://cdn.jsdelivr.net/gh/liweitan2046-cyber/dsh-wanfeng-studio@main/docs/labs.png)
 
 > 上图：左侧内置工作流，中间是探测出的 24 个节点与输入映射，右侧填工作流 ID 并运行。
 
