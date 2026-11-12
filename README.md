@@ -1,5 +1,8 @@
 # 万风复刻工作台 · dsh-wanfeng-studio
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-liweitan2046--cyber%2Fdsh--wanfeng--studio-181717?logo=github)](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio)
+
 一个装在 [DeepSeek Harness](https://github.com/deepseek-ai) 里的**爆款短视频复刻工作台**。
 从侧栏「万风工作台」进入，把「选原片 → 出角色图 → 换人 → 质检 → 成片」整条流水线放在一个界面里，
 顺手带素材库、三轨时间线和 RunningHub 任意工作流接入。
@@ -49,13 +52,19 @@
 
 ## 安装
 
-插件以 DSH bundle 的形式安装。把本目录放进你的工作区，然后在 DSH 里：
+插件以 DSH bundle 的形式安装：先把仓库克隆到本地工作区，再让 DSH 安装这个目录。
+
+```bash
+git clone https://github.com/liweitan2046-cyber/dsh-wanfeng-studio.git
+```
+
+然后在 DSH 里：
 
 ```
-plugin_manager(action="install_bundle", target="<本目录的绝对路径>")
+plugin_manager(action="install_bundle", target="<克隆下来的目录绝对路径>")
 ```
 
-或者把它发布成 npm 包后按常规 DSH 插件安装。安装完刷新 Web UI，侧栏会出现「万风工作台」。
+安装完刷新 Web UI，侧栏会出现「万风工作台」。之后改源码不需要重装（bundle 是软链），刷新页面即可。
 
 要求：
 
