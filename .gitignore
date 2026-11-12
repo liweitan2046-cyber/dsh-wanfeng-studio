@@ -6,7 +6,7 @@ Thumbs.db
 
 # 插件运行时数据（配置里有 Key，永远不要提交）
 config.json
-workflows/
+/workflows/
 生成结果/
 上传素材/
 

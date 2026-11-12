@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Ensure ffmpeg
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version | head -1
+
+      - name: Syntax check
+        run: npm run check
+
+      - name: Self test (isolated fixture)
+        env:
+          WANFENG_ROOT: ${{ runner.temp }}/wanfeng-root
+          WANFENG_STUDIO_HOME: ${{ runner.temp }}/wanfeng-data
+          WANFENG_PYTHON: python3
+        run: |
+          mkdir -p "$WANFENG_ROOT"
+          node selftest.mjs
