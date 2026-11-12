@@ -1,5 +1,6 @@
 # 万风复刻工作台 · dsh-wanfeng-studio
 
+[![npm](https://img.shields.io/npm/v/dsh-wanfeng-studio?logo=npm&color=cb3837)](https://www.npmjs.com/package/dsh-wanfeng-studio)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio/actions/workflows/ci.yml)
 [![GitHub](https://img.shields.io/badge/GitHub-liweitan2046--cyber%2Fdsh--wanfeng--studio-181717?logo=github)](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio)
@@ -53,7 +54,21 @@
 
 ## 安装
 
-插件以 DSH bundle 的形式安装：先把仓库克隆到本地工作区，再让 DSH 安装这个目录。
+插件以 DSH bundle 的形式安装。装法有两种，任选其一。
+
+**方式 A：从 npm 装（推荐）**
+
+```bash
+npm install -g dsh-wanfeng-studio
+```
+
+然后让 DSH 安装这个包所在目录（Windows 上是 `npm root -g` 下的 `dsh-wanfeng-studio`）：
+
+```
+plugin_manager(action="install_bundle", target="<全局 node_modules 里的 dsh-wanfeng-studio 目录绝对路径>")
+```
+
+**方式 B：从 GitHub 克隆**
 
 ```bash
 git clone https://github.com/liweitan2046-cyber/dsh-wanfeng-studio.git
@@ -204,6 +219,27 @@ node selftest.mjs        # 21 项后端自测，不联网、不花钱
 - 换人工作流**保留原片背景**；想换场景要在提示词里改，或后期合成。
 - 质检接口异常时一律 SKIP 放行，不会自动重跑——重跑意味着再花一次钱。
 - 这是非官方插件，与 RunningHub / APIMart 无隶属关系。
+
+---
+
+## 发版（维护者）
+
+npm 对「开启 2FA 的账号」不允许命令行直接 `npm publish`（403），改用两步的暂存发布：
+
+```bash
+npm stage publish          # 上传到 npm 暂存区，输出一个 staged id
+```
+
+然后打开 <https://www.npmjs.com/settings/liweitan2046-cyber/staged-packages>，
+等包上方的 `Validating` 扫描结束后点 **Approve**（浏览器里能用 security key / 指纹完成 2FA）。
+
+批准后核验：
+
+```bash
+npm view dsh-wanfeng-studio version   # 应返回新版本号
+git tag v0.1.1 && git push origin v0.1.1
+gh release create v0.1.1 --notes "…"
+```
 
 ## License
 
