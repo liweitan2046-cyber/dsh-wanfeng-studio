@@ -144,7 +144,8 @@ background:#14161a;color:#e8eaf0;font:13px/1.5 -apple-system,BlinkMacSystemFont,
 .wf-empty{padding:26px 18px;text-align:center;color:var(--dsw-alias-label-secondary,#8f97a5);font-size:12px;line-height:1.7}
 .wf-empty b{display:block;color:var(--dsw-alias-label-primary,#e8eaf0);font-size:13px;margin-bottom:4px;font-weight:600}
 .wf-center{display:flex;flex-direction:column;min-height:0;background:radial-gradient(120% 90% at 50% 0%,rgba(124,156,255,.07),transparent 60%),var(--dsw-alias-bg-layer-1,#14161a)}
-.wf-stage-tools{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--dsw-alias-border-l2,#2b2f37);flex:none;color:var(--dsw-alias-label-secondary,#8f97a5);font-size:11.5px}
+.wf-stage-tools{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--dsw-alias-border-l2,#2b2f37);flex:none;color:var(--dsw-alias-label-secondary,#8f97a5);font-size:11.5px;white-space:nowrap;overflow:hidden}
+.wf-stage-tools>span{white-space:nowrap;flex:none}
 .wf-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;padding:18px 22px;position:relative}
 .wf-stage-inner{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:10px;overflow:hidden;background:#0b0d11;border:1px solid var(--dsw-alias-border-l2,#2b2f37);position:relative}
 .wf-stage-inner img{max-width:100%;max-height:100%;object-fit:contain;display:block}
@@ -304,8 +305,8 @@ background:#14161a;color:#e8eaf0;font:13px/1.5 -apple-system,BlinkMacSystemFont,
 .wf-btn-go{background:#a3e635!important;color:#0d1117!important;border-color:transparent!important;font-weight:700}
 .wf-btn-go:hover{background:#b6f04a!important}
 .wf-stage-live{color:#c8cfdb}
-.wf-stage-tabs{display:flex;gap:2px;align-items:center}
-.wf-stage-tab{padding:3px 8px;border-radius:5px;font-size:10.5px;color:#7d8592;cursor:default}
+.wf-stage-tabs{display:flex;gap:2px;align-items:center;flex:none}
+.wf-stage-tab{padding:3px 8px;border-radius:5px;font-size:10.5px;color:#7d8592;cursor:default;white-space:nowrap;flex:none}
 .wf-stage-tab.on{background:#242932;color:#e8eaf0}
 .wf-tool-sep{width:1px;height:12px;background:#2b2f37;margin:0 4px}
 .wf-zoom-bar{display:flex;align-items:center;gap:6px;padding:5px 12px;border-bottom:1px solid #23272f;flex:none;color:#8f97a5;font-size:10.5px}
