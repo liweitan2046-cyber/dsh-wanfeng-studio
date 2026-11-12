@@ -1,0 +1,52 @@
+{
+  "name": "dsh-wanfeng-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "爆款视频复刻工作台：原片 → 角色图（审核门）→ 换人 → 质检 → 成片，外加素材库、三轨时间线与 RunningHub 任意工作流接入。",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "src/**/*.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "engines": {
+    "node": ">=20",
+    "dsh": ">=0.2.2-rc.1 <0.3.0"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "remake",
+    "runninghub",
+    "apimart",
+    "comfyui",
+    "video",
+    "timeline",
+    "studio"
+  ],
+  "license": "MIT"
+}

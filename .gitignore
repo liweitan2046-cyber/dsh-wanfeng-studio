@@ -1,0 +1,15 @@
+# 依赖与本地文件
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# 插件运行时数据（配置里有 Key，永远不要提交）
+config.json
+workflows/
+生成结果/
+上传素材/
+
+# 自测产物
+自测-*
+docs/screenshot.png
