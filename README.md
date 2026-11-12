@@ -1,6 +1,7 @@
 # 万风复刻工作台 · dsh-wanfeng-studio
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio/actions/workflows/ci.yml)
 [![GitHub](https://img.shields.io/badge/GitHub-liweitan2046--cyber%2Fdsh--wanfeng--studio-181717?logo=github)](https://github.com/liweitan2046-cyber/dsh-wanfeng-studio)
 
 一个装在 [DeepSeek Harness](https://github.com/deepseek-ai) 里的**爆款短视频复刻工作台**。
