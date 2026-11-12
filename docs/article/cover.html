@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200, initial-scale=1">
+  <title>从 7 个脚本，到 1 个插件 · WANFENG STUDIO</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --canvas: #0b0e14;
+      --panel: #0f151e;
+      --text: #f3f6fb;
+      --muted: #94a1b3;
+      --mint: #5eead4;
+      --violet: #8b5cf6;
+      --line: rgba(148, 161, 179, 0.19);
+      --chinese: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+      --latin: 'Inter', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--canvas);
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--chinese);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .cover {
+      position: relative;
+      isolation: isolate;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 84% 65%, rgba(94, 234, 212, 0.045), transparent 46%),
+        radial-gradient(ellipse at 95% 91%, rgba(139, 92, 246, 0.055), transparent 36%),
+        var(--canvas);
+    }
+
+    .cover::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 161, 179, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 161, 179, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      content: '';
+      mask-image: linear-gradient(110deg, transparent 25%, #000 100%);
+    }
+
+    .brand {
+      position: absolute;
+      top: 38px;
+      left: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      color: var(--muted);
+      font: 650 13px/20px var(--latin);
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .brand-symbol {
+      width: 17px;
+      height: 17px;
+      border: 1px solid var(--mint);
+      border-radius: 3px;
+      background: linear-gradient(135deg, transparent 44%, var(--mint) 45%, var(--mint) 53%, transparent 54%);
+    }
+
+    .frame-marks {
+      position: absolute;
+      top: 42px;
+      right: 56px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 12px;
+    }
+
+    .frame-marks i {
+      width: 20px;
+      height: 3px;
+      background: rgba(148, 161, 179, 0.24);
+    }
+
+    .frame-marks i:last-child {
+      width: 36px;
+      background: rgba(94, 234, 212, 0.55);
+    }
+
+    h1 {
+      position: absolute;
+      top: 91px;
+      left: 52px;
+      margin: 0;
+      font-size: 108px;
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -4px;
+    }
+
+    .title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .title-line:last-child { color: var(--mint); }
+
+    .number {
+      font-family: var(--latin);
+      font-weight: 900;
+      letter-spacing: -5px;
+    }
+
+    .subtitle {
+      position: absolute;
+      top: 326px;
+      left: 56px;
+      margin: 0;
+      color: #c7d0dc;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 34px;
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+    }
+
+    .latin { font-family: var(--latin); }
+
+    .script-list {
+      position: absolute;
+      top: 390px;
+      left: 58px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      list-style: none;
+      opacity: 0.62;
+    }
+
+    .script-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 21px;
+      font-size: 15px;
+      line-height: 21px;
+      letter-spacing: 0.3px;
+    }
+
+    .script-list li::before {
+      color: rgba(248, 113, 113, 0.9);
+      font-family: var(--latin);
+      font-size: 12px;
+      font-weight: 700;
+      content: '✕';
+    }
+
+    .script-list s {
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(167, 178, 194, 0.95);
+    }
+
+    .convergence {
+      position: absolute;
+      top: 392px;
+      left: 233px;
+      width: 225px;
+      height: 144px;
+      overflow: visible;
+    }
+
+    .workbench {
+      position: absolute;
+      top: 386px;
+      left: 458px;
+      width: 686px;
+      height: 166px;
+      margin: 0;
+      border: 1px solid rgba(148, 161, 179, 0.3);
+      border-radius: 10px;
+      background: rgba(15, 21, 30, 0.92);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .workbench-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 43px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .workbench-name {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font: 600 14px/20px var(--latin);
+      letter-spacing: 0.1px;
+    }
+
+    .workbench-name::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 10px rgba(94, 234, 212, 0.2);
+      content: '';
+    }
+
+    .workbench-label {
+      color: var(--muted);
+      font: 500 10px/16px var(--latin);
+      letter-spacing: 1.8px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 23px;
+      margin: 0;
+      padding: 19px 20px;
+      list-style: none;
+    }
+
+    .step {
+      position: relative;
+      height: 82px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: rgba(148, 161, 179, 0.025);
+    }
+
+    .step:not(:last-child)::after {
+      position: absolute;
+      top: 36px;
+      right: -18px;
+      width: 7px;
+      height: 7px;
+      border-top: 1px solid rgba(148, 161, 179, 0.55);
+      border-right: 1px solid rgba(148, 161, 179, 0.55);
+      transform: rotate(45deg);
+      content: '';
+    }
+
+    .step-index {
+      display: block;
+      color: var(--muted);
+      font: 500 10px/16px var(--latin);
+      letter-spacing: 1.2px;
+    }
+
+    .step-name {
+      display: block;
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24px;
+      white-space: nowrap;
+    }
+
+    .review-gate {
+      border-color: rgba(94, 234, 212, 0.62);
+      background: rgba(94, 234, 212, 0.055);
+      color: var(--mint);
+    }
+
+    .review-gate .step-index { color: var(--mint); }
+
+    .approval-mark {
+      position: absolute;
+      top: 8px;
+      right: 9px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--mint);
+    }
+
+    .approval-mark::after {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 5px;
+      border-bottom: 2px solid var(--panel);
+      border-left: 2px solid var(--panel);
+      transform: rotate(-45deg);
+      content: '';
+    }
+
+    .footer {
+      position: absolute;
+      right: 56px;
+      bottom: 24px;
+      left: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 30px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .pipeline {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 18px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .repository {
+      margin: 0;
+      color: var(--muted);
+      font: 500 11px/18px var(--latin);
+      letter-spacing: 0.05px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <main class="cover" aria-label="从 7 个脚本到 1 个插件：DeepSeek Harness 工作台技术长文封面">
+    <p class="brand"><span class="brand-symbol" aria-hidden="true"></span>WANFENG STUDIO · DSH PLUGIN</p>
+    <div class="frame-marks" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <h1>
+      <span class="title-line">从 <span class="number">7</span> 个脚本</span>
+      <span class="title-line">到 <span class="number">1</span> 个插件</span>
+    </h1>
+    <p class="subtitle">我把爆款视频复刻做成了 <span class="latin">DeepSeek Harness</span> 工作台</p>
+
+    <ul class="script-list" aria-label="被整合的散落脚本">
+      <li><s>下原片<span class="latin">.py</span></s></li>
+      <li><s>出角色图<span class="latin">.py</span></s></li>
+      <li><s>换人<span class="latin">.py</span></s></li>
+      <li><s>成片质检<span class="latin">.py</span></s></li>
+      <li><s class="latin">stitch.py</s></li>
+      <li><s>超分成片<span class="latin">.py</span></s></li>
+    </ul>
+
+    <svg class="convergence" viewBox="0 0 225 144" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="flow" x1="0" y1="0" x2="225" y2="0" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#5eead4" />
+          <stop offset="1" stop-color="#8b5cf6" />
+        </linearGradient>
+      </defs>
+      <g stroke="url(#flow)" stroke-width="1" opacity="0.24">
+        <path d="M0 8 C78 8 63 77 130 77" />
+        <path d="M0 33 C70 33 72 77 130 77" />
+        <path d="M0 58 C67 58 88 77 130 77" />
+        <path d="M0 83 C67 83 88 77 130 77" />
+        <path d="M0 108 C70 108 72 77 130 77" />
+        <path d="M0 133 C78 133 63 77 130 77" />
+      </g>
+      <path d="M92 77 H221 M213 71 L221 77 L213 83" stroke="url(#flow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+
+    <figure class="workbench" aria-label="插件工作台：原片、角色图审核门、换人、质检、成片">
+      <figcaption class="workbench-header">
+        <span class="workbench-name">DeepSeek Harness</span>
+        <span class="workbench-label">WORKBENCH</span>
+      </figcaption>
+      <ol class="steps">
+        <li class="step"><span class="step-index">01</span><span class="step-name">原片</span></li>
+        <li class="step review-gate" aria-label="角色图，审核门">
+          <span class="step-index">02</span><span class="approval-mark" aria-hidden="true"></span><span class="step-name">角色图</span>
+        </li>
+        <li class="step"><span class="step-index">03</span><span class="step-name">换人</span></li>
+        <li class="step"><span class="step-index">04</span><span class="step-name">质检</span></li>
+        <li class="step"><span class="step-index">05</span><span class="step-name">成片</span></li>
+      </ol>
+    </figure>
+
+    <footer class="footer">
+      <p class="pipeline">原片 → 角色图（审核门）→ 换人 → 质检 → 成片</p>
+      <p class="repository">github.com/liweitan2046-cyber/dsh-wanfeng-studio</p>
+    </footer>
+  </main>
+</body>
+</html>
