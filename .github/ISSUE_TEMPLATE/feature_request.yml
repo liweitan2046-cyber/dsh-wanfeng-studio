@@ -1,0 +1,39 @@
+name: Feature request
+description: 想加一个能力，或者现有流程有更顺的做法
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你遇到的问题
+      description: 描述场景，而不是解决方案。比如「一次要复刻 5 条片子，现在每条都要手动点一遍审核」。
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: 你希望它怎么工作
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternative
+    attributes:
+      label: 现在你是怎么绕过去的
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及哪块
+      options:
+        - 复刻流程（原片 / 角色图 / 换人 / 质检 / 成片）
+        - 工作流实验室
+        - 素材库 / 时间线
+        - 配置与安装
+        - 文档
+        - 其他
+    validations:
+      required: true

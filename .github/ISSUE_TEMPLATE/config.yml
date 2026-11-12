@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 使用问题 / 配 Key / 装不上
+    url: https://github.com/liweitan2046-cyber/dsh-wanfeng-studio#readme
+    about: 先看 README 的「安装」和「配置」，多数启动问题都在那里
+  - name: RunningHub 与 APIMart 接口问题
+    url: https://www.runninghub.cn
+    about: 工作流本身报错、余额不足、队列排队，请找对应平台

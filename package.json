@@ -1,7 +1,6 @@
 {
   "name": "dsh-wanfeng-studio",
   "version": "0.1.0",
-  "private": true,
   "description": "爆款视频复刻工作台：原片 → 角色图（审核门）→ 换人 → 质检 → 成片，外加素材库、三轨时间线与 RunningHub 任意工作流接入。",
   "type": "module",
   "main": "index.js",
@@ -19,6 +18,23 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liweitan2046-cyber/dsh-wanfeng-studio.git"
+  },
+  "homepage": "https://github.com/liweitan2046-cyber/dsh-wanfeng-studio#readme",
+  "bugs": {
+    "url": "https://github.com/liweitan2046-cyber/dsh-wanfeng-studio/issues"
+  },
+  "author": "liweitan2046-cyber",
+  "scripts": {
+    "check": "node --check index.js && node --check client.js && node --check src/config.js && node --check src/scan.js && node --check src/jobs.js && node --check src/ff.js && node --check src/rh.js && node --check src/ai.js && node --check src/workflows.js && node --check src/project.js && node --check src/routes.js",
+    "test": "node selftest.mjs",
+    "test:ci": "node selftest.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"

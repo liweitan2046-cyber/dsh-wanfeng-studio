@@ -1,0 +1,69 @@
+name: Bug report
+description: 工作台某个地方不对，或者跑不通
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        提交前先在「设置 → 连通测试」点一次，确认是插件问题还是 API Key / ffmpeg 的问题。
+        **不要贴出你的 API Key**，贴了也请先打码。
+
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么
+      description: 一句话说清楚现象，比如「素材卡片变成一条线」「换人任务一直停在 running」。
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开侧栏「万风工作台」
+        2. 切到「素材」
+        3. 选作品「xxx」
+        4. ……
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / 截图
+      description: 浏览器控制台的报错、`/wanfeng-studio/health` 返回、任务日志尾部都可以贴。
+      render: text
+    validations:
+      required: false
+
+  - type: input
+    id: dsh
+    attributes:
+      label: DSH 版本
+      placeholder: 0.2.2-rc.x
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 系统 / Node / ffmpeg
+      placeholder: Windows 11 / Node 22.12 / ffmpeg 7.1
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: paid
+    attributes:
+      label: 是否涉及付费接口
+      options:
+        - label: 这条 issue 涉及 RunningHub 或 APIMart 的真实调用（会产生费用）
+          required: false

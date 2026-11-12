@@ -1,10 +1,11 @@
 /**
- * 临时自测：不经过 HTTP 鉴权，直接驱动 Routes，验证索引 / 上传 / 时间线 / 任务 / 复刻流程。
- * 跑完自行清理产生的文件；不属于插件发布内容（发布前删掉）。
+ * 自测：不经过 HTTP 鉴权，直接驱动 Routes，验证索引 / 上传 / 时间线 / 任务 / 复刻流程。
+ * 跑完自行清理产生的文件。设置 WANFENG_ROOT 指向空目录时会自动生成最小素材，
+ * 所以它也能在 CI（没有真实作品库）里跑。
  */
 import { Readable } from 'node:stream'
 import { spawn } from 'node:child_process'
-import { writeFile, rm, stat } from 'node:fs/promises'
+import { writeFile, mkdir, rm, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { DATA_DIR, StudioConfig } from './src/config.js'
 import { MediaIndex } from './src/scan.js'
@@ -15,7 +16,8 @@ import { ApiMart } from './src/ai.js'
 import { FFmpeg } from './src/ff.js'
 import { ProjectStore } from './src/project.js'
 
-const ROOT = 'D:\\codex\\wanfeng'
+const ROOT = process.env.WANFENG_ROOT || 'D:\\codex\\wanfeng'
+const ISOLATED = Boolean(process.env.WANFENG_ROOT)
 const config = new StudioConfig()
 const index = new MediaIndex(config)
 const jobs = new JobRunner(config, index)
@@ -89,12 +91,31 @@ function renderTestVideo(outPath) {
   })
 }
 
+/** CI / 空目录：造几个作品文件夹，让索引、素材、流程断言有东西可测。 */
+async function bootstrapFixture() {
+  if (!ISOLATED) return
+  const dirs = [
+    join(ROOT, '测试-作品A', '参考图'),
+    join(ROOT, '测试-作品B', '成片'),
+    join(ROOT, '测试-作品C', 'source'),
+  ]
+  for (const dir of dirs) await mkdir(dir, { recursive: true })
+  await writeFile(join(ROOT, '测试-作品A', '参考图', 'a1.png'), PNG)
+  await writeFile(join(ROOT, '测试-作品A', '参考图', 'a2.png'), PNG)
+  await writeFile(join(ROOT, '测试-作品A', '参考图', 'a3.png'), PNG)
+  await writeFile(join(ROOT, '测试-作品B', '成片', 'b1.png'), PNG)
+  await renderTestVideo(join(ROOT, '测试-作品C', 'source', 'demo.mp4'))
+  await writeFile(join(ROOT, '测试-作品C', '处理.py'), 'print("fixture")\n', 'utf8')
+  await index.ensure(true)
+}
+
 try {
+  await bootstrapFixture()
   const health = await call('GET', '/health')
   check('health', health.status === 200 && health.json?.ok === true, `items=${health.json?.items} root=${health.json?.root}`)
 
   const works = await call('GET', '/works')
-  check('works', works.status === 200 && Array.isArray(works.json?.works) && works.json.works.length >= 10, `works=${works.json?.works?.length}`)
+  check('works', works.status === 200 && Array.isArray(works.json?.works) && works.json.works.length >= 3, `works=${works.json?.works?.length}`)
 
   const assets = await call('GET', '/assets?kind=image&limit=3')
   check('assets', assets.status === 200 && assets.json?.items?.length === 3 && assets.json.items[0].url, `total=${assets.json?.total}`)

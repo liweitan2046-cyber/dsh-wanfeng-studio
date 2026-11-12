@@ -7,7 +7,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 
-export const DATA_DIR = join(homedir(), '.dsh', 'wanfeng-studio')
+export const DATA_DIR = process.env.WANFENG_STUDIO_HOME || join(homedir(), '.dsh', 'wanfeng-studio')
 
 export const DEFAULTS = {
   root: 'D:\\codex\\wanfeng',
@@ -50,8 +50,8 @@ function number(value, fallback) {
 
 function normalize(input) {
   const merged = { ...DEFAULTS, ...(input || {}) }
-  merged.root = text(merged.root, DEFAULTS.root)
-  merged.python = text(merged.python, DEFAULTS.python)
+  merged.root = text(process.env.WANFENG_ROOT, text(merged.root, DEFAULTS.root))
+  merged.python = text(process.env.WANFENG_PYTHON, text(merged.python, DEFAULTS.python))
   merged.uploadDir = text(merged.uploadDir, DEFAULTS.uploadDir)
   merged.ignore = Array.isArray(merged.ignore)
     ? merged.ignore.filter(row => typeof row === 'string' && row.trim()).map(row => row.trim())
